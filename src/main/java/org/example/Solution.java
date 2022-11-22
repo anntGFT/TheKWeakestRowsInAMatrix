@@ -26,20 +26,12 @@ public class Solution {
             rowPower.put(i,power);
             power = 0;
         }
-        Map<Integer, Integer> sortedMap = rowPower.entrySet().stream()
+        weakestRows= rowPower.entrySet().stream()
                 .sorted(comparingInt(Map.Entry::getValue))
                 .limit(k)
-                .collect(toMap(Map.Entry::getKey,Map.Entry::getValue,
-                        (a, b) -> { throw new AssertionError();},
-                        LinkedHashMap::new
-                ));
-
-        Set<Integer> keys = sortedMap.keySet();
-
-        weakestRows = new int[keys.size()];
-
-        int index = 0;
-        for(Integer element : keys) weakestRows[index++] = element;
+                .map(Map.Entry::getKey)
+                .mapToInt(x -> x)
+                .toArray();
 
         return weakestRows;
     }
